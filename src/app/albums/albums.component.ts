@@ -35,7 +35,7 @@ export class AlbumsComponent implements OnInit {
     console.log($event)
   }
 
-  search($event) {
-    if ($event) this.albums = $event;
+  search($event){
+    if($event) this.albums = $event;
   }
 }
