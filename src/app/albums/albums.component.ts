@@ -34,4 +34,8 @@ export class AlbumsComponent implements OnInit {
     this.status = $event.id; // identifiant unique
     console.log($event)
   }
+
+  search($event) {
+    if ($event) this.albums = $event;
+  }
 }
