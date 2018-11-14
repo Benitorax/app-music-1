@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 
 import { Album } from '../album';
 import { ALBUMS } from '../mock-albums';
+import { AlbumService } from '../album.service';
 
 @Component({
   selector: 'app-albums',
@@ -15,18 +16,22 @@ export class AlbumsComponent implements OnInit {
   selectedAlbum : Album;
   status: string = null; // pour gérer l'affichage des caractères [play] 
 
-  constructor() { }
+  constructor(private ablumService: AlbumService) {
+    // contrôle de la méthode count
+    console.log(this.ablumService.count)
+  }
 
+  ngOnInit() {
+    this.albums = this.ablumService.paginate(0,5);
+  }
 
   onSelect(album: Album) {
     //console.log(album);
     this.selectedAlbum = album;
   }
 
-  ngOnInit() {
-  }
-
   playParent($event){
     this.status = $event.id; // identifiant unique
+    console.log($event)
   }
 }
