@@ -13,17 +13,20 @@ export class AlbumsComponent implements OnInit {
   titlePage: string = "Page princiaple Albums Music";
   albums: Album[] = ALBUMS;
   selectedAlbum : Album;
+  status: string = null; // pour gérer l'affichage des caractères [play] 
 
   constructor() { }
+
+
+  onSelect(album: Album) {
+    //console.log(album);
+    this.selectedAlbum = album;
+  }
 
   ngOnInit() {
   }
 
-  onSelect(album: Album) {
-    // console.log(album);
-    this.selectedAlbum = album;
+  playParent($event){
+    this.status = $event.id; // identifiant unique
   }
-
 }
-
-
