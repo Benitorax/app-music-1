@@ -1,8 +1,7 @@
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
-
 import { Album, List } from '../album';
 
-import { ALBUM_LISTS } from '../mock-albums';
+import { AlbumService } from '../album.service';
 
 @Component({
   selector: 'app-album-details',
@@ -14,10 +13,9 @@ export class AlbumDetailsComponent implements OnInit {
   @Input() album: Album; // propriété [album] liée 
   @Output() onPlay: EventEmitter<Album> = new EventEmitter();
 
-  albumLists: List[] = ALBUM_LISTS; // récupération de la liste des chasons
-  songs: Array<string> = [];
+  songs: List;
 
-  constructor() { }
+  constructor(private aS :AlbumService) { }
 
   ngOnInit() { }
 
@@ -26,11 +24,10 @@ export class AlbumDetailsComponent implements OnInit {
   ngOnChanges() {
     // on vérifie que l'on a bien cliqué sur un album avant de rechercher dans la liste
     // des chansons.
-    if(this.album){
+    if (this.album) {
       // récupération de la liste des chansons
-      this.songs = this.albumLists.find(elem => elem.id === this.album.id).list;
+      this.songs = this.aS.getAlbumList(this.album.id);
     }
-   
   }
 
   play(album: Album) {

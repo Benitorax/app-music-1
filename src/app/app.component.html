@@ -8,7 +8,7 @@
         <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
             <ul class="navbar-nav mr-auto">
                 <li class="nav-item active">
-                    <a class="nav-link" routerLink="/albums">Home
+                    <a class="nav-link" routerLink="/albums" routerLinkActive="active">Home
                     </a>
                 </li>
                 <li class="nav-item active">
@@ -23,5 +23,7 @@
     <!-- 
 à la place du sélecteur des albums on mettra maintenant le chargement des components
 -->
-    <router-outlet></router-outlet>
+    <div>
+        <router-outlet ></router-outlet>
+    </div>
 </div>
