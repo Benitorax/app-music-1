@@ -9,7 +9,8 @@ import { FormsModule } from "@angular/forms";
 import { SearchComponent } from './search/search.component';
 import { AlbumDescriptionComponent } from './album-description/album-description.component';
 import { LoginComponent } from './login/login.component';
-import {AppRoutingModule} from './app-routing.module'
+import {AppRoutingModule} from './app-routing.module';
+
 @NgModule({
   declarations: [
     AppComponent,
