@@ -10,6 +10,7 @@ import { SearchComponent } from './search/search.component';
 import { AlbumDescriptionComponent } from './album-description/album-description.component';
 import { LoginComponent } from './login/login.component';
 import {AppRoutingModule} from './app-routing.module';
+import { PaginateComponent } from './paginate/paginate.component';
 
 @NgModule({
   declarations: [
@@ -19,6 +20,7 @@ import {AppRoutingModule} from './app-routing.module';
     SearchComponent,
     AlbumDescriptionComponent,
     LoginComponent,
+    PaginateComponent,
   ],
   imports: [
     BrowserModule,

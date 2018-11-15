@@ -6,6 +6,7 @@
   </div>
   <!-- .video -->
   <div [@listAnimation]="count" class="col-sm-8 music">
+    <app-paginate (setPaginate)="paginate($event)"></app-paginate>
     <h1>{{ titlePage }}</h1>
     <!-- Pagination -->
     <!-- let index permet de récupérer l'indice numérique de la liste -->
@@ -41,6 +42,7 @@
     </div>
     <!-- .card -->
     <!-- Pagination -->
+    <app-paginate (setPaginate)="paginate($event)"></app-paginate>
   </div>
   <!-- .music -->
 </div>

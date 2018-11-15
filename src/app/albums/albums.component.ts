@@ -40,14 +40,11 @@ export class AlbumsComponent implements OnInit {
   status: string = null; // pour gérer l'affichage des caractères [play] 
   count: number = 0;
 
-  constructor(private ablumService: AlbumService) {
-    // contrôle de la méthode count
-
-  }
+  constructor(private ablumService: AlbumService) {}
 
   ngOnInit() {
-    this.albums = this.ablumService.paginate(0, 5);
-    if(this.albums) this.count = this.albums.length;
+    this.albums = this.ablumService.paginate(0, 2);
+    if (this.albums) this.count = this.albums.length;
   }
 
   onSelect(album: Album) {
@@ -61,5 +58,9 @@ export class AlbumsComponent implements OnInit {
 
   search($event) {
     if ($event) this.albums = $event;
+  }
+
+  paginate($event) {
+    this.albums = this.ablumService.paginate($event.start, $event.end);
   }
 }

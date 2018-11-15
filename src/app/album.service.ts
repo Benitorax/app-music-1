@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 
 import { Album, List } from './album';
 import { ALBUM_LISTS, ALBUMS } from './mock-albums';
+import { Subject } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -10,6 +11,9 @@ export class AlbumService {
 
   private _albums: Album[] = ALBUMS; // _ convention private et protected
   private _albumList: List[] = ALBUM_LISTS;
+
+  // Observer et Observable
+  sendCurrentNumberPage = new Subject<number>();
 
   constructor() { }
 
@@ -38,7 +42,6 @@ export class AlbumService {
 
   paginate(start: number, end: number): Album[] {
 
-    // utilisez la méthode slice pour la pagination
     return this._albums.sort(
       (a, b) => { return b.duration - a.duration }
     ).slice(start, end);
@@ -55,5 +58,9 @@ export class AlbumService {
     }
   }
 
+  currentPage(numberPage: number) {
+    // Observer notifie une information page ici numérique
+    return this.sendCurrentNumberPage.next(numberPage);
+  }
 
 }
