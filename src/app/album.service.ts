@@ -14,6 +14,7 @@ export class AlbumService {
 
   // Observer et Observable
   sendCurrentNumberPage = new Subject<number>();
+  subjectAlbum = new Subject<Album>();
 
   constructor() { }
 
@@ -63,4 +64,21 @@ export class AlbumService {
     return this.sendCurrentNumberPage.next(numberPage);
   }
 
+  switchOn(album: Album) {
+    let a = this._albums.find(list => list.id === album.id);
+    if (a) {
+      a.status = 'on';
+      // notifier à l'observable que l'album change statut
+      // console.log(album.status, album.id);
+      this.subjectAlbum.next(album); 
+    }
+
+  }
+
+  switchOff(id : string) {
+    let a = this._albums.find(list => list.id === id);
+    if (a) {
+      a.status = 'off';
+    }
+  }
 }
