@@ -48,6 +48,7 @@ export class AudioPlayerComponent implements OnInit {
             this.aS.switchOff(this.albumId);
             this.total = null;
             this.ratio = 0;
+            this.current = 1; 
           }
         }
       )
