@@ -25,7 +25,7 @@ export class AudioPlayerComponent implements OnInit {
 
     this.aS.subjectAlbum
       .pipe(
-        // mergeMap permet de mergé les observables
+        // mergeMap permet de merger les observables
         mergeMap(album => {
           this.total = Math.floor(album.duration / 120)
           this.albumId = album.id;
