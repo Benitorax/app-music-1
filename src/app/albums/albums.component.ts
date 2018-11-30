@@ -12,6 +12,7 @@ import {
   query,
   stagger,
 } from '@angular/animations';
+import { Observable } from 'rxjs';
 
 @Component({
   selector: 'app-albums',
@@ -38,16 +39,24 @@ export class AlbumsComponent implements OnInit {
   albums: Album[] = ALBUMS;
   selectedAlbum: Album;
   status: string = null; // pour gérer l'affichage des caractères [play] 
-  count: number = 0;
+  count;
 
-  constructor(private ablumService: AlbumService) {}
+  constructor(private ablumService: AlbumService) {
+    // récupération des données depuis Firebase
+    // console.log(this.ablumService.getAlbums().subscribe(
+    //   albums => console.log(albums)
+    // ))
+  }
 
   ngOnInit() {
-    this.albums = this.ablumService.paginate(0, 2);
-    if (this.albums) this.count = this.albums.length;
+    this.ablumService.paginate(0, 5).subscribe(albums => this.albums = albums);
+    this.count = this.ablumService.count().subscribe(
+      count => this.count = count
+    );
   }
 
   onSelect(album: Album) {
+    //console.log(album);
     this.selectedAlbum = album;
   }
 
@@ -61,6 +70,8 @@ export class AlbumsComponent implements OnInit {
   }
 
   paginate($event) {
-    this.albums = this.ablumService.paginate($event.start, $event.end);
+    this.ablumService.paginate($event.start, $event.end).subscribe(
+      albums => this.albums = albums
+    )
   }
 }

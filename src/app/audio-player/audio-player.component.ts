@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { AlbumService } from '../album.service';
 import { interval } from 'rxjs'; // Observable
 import { take, map, mergeMap } from 'rxjs/operators'; // opérateurs
+import { Album } from '../album';
 
 @Component({
   selector: 'app-audio-player',
@@ -14,7 +15,7 @@ export class AudioPlayerComponent implements OnInit {
   total: number;
   ratio: number = 0;
   step: number;
-  albumId: string;
+  album: Album; 
 
   constructor(private aS: AlbumService) { }
 
@@ -28,7 +29,7 @@ export class AudioPlayerComponent implements OnInit {
         // mergeMap permet de merger les observables
         mergeMap(album => {
           this.total = Math.floor(album.duration / 120)
-          this.albumId = album.id;
+          this.album = album;
 
           return interval$.pipe(
             take(this.total),
@@ -45,7 +46,7 @@ export class AudioPlayerComponent implements OnInit {
 
           // remettre à jour les données bar de progression et album
           if(this.current == this.total){
-            this.aS.switchOff(this.albumId);
+            this.aS.switchOff(this.album);
             this.total = null;
             this.ratio = 0;
             this.current = 1; 

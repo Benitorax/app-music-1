@@ -16,7 +16,7 @@ export class PaginateComponent implements OnInit {
   numberPages: number = 0;
   currentPage: number;
 
-  constructor(private aS: AlbumService) {}
+  constructor(private aS: AlbumService) { }
 
   ngOnInit() {
     this.init();
@@ -33,14 +33,15 @@ export class PaginateComponent implements OnInit {
    *  init paginate
    * @param page 
    */
-  init(page : number = 1) {
-      this.total = this.aS.count();
-      this.numberPages = Math.ceil(this.total / this.perPage);
+  init(page: number = 1) {
+    this.aS.count().subscribe(count => {
+      this.numberPages = Math.ceil(count / this.perPage);
       this.currentPage = page;
       this.pages = [];
       for (let i = 1; i < this.numberPages + 1; i++) {
         this.pages.push(i);
       }
+    })
   }
 
   selectedPage(page: number) {

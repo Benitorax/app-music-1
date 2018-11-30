@@ -15,7 +15,7 @@ export class AlbumDetailsComponent implements OnInit {
 
   songs: List;
 
-  constructor(private aS :AlbumService) { }
+  constructor(private aS: AlbumService) { }
 
   ngOnInit() { }
 
@@ -26,7 +26,9 @@ export class AlbumDetailsComponent implements OnInit {
     // des chansons.
     if (this.album) {
       // récupération de la liste des chansons
-      this.songs = this.aS.getAlbumList(this.album.id);
+      this.aS.getAlbumList(this.album.id).subscribe(
+        songs => this.songs = songs
+      );
     }
   }
 

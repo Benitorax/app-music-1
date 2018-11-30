@@ -1,84 +1,150 @@
 import { Injectable } from '@angular/core';
 
 import { Album, List } from './album';
-import { ALBUM_LISTS, ALBUMS } from './mock-albums';
-import { Subject } from 'rxjs';
+import { Subject, Observable } from 'rxjs';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { map } from 'rxjs/operators';
+import * as _ from 'lodash';
+import * as firebase from 'firebase/app';
+
+const httpOptions = {
+  headers: new HttpHeaders({
+    'Content-Type': 'application/json',
+  })
+};
 
 @Injectable({
   providedIn: 'root'
 })
 export class AlbumService {
 
-  private _albums: Album[] = ALBUMS; // _ convention private et protected
-  private _albumList: List[] = ALBUM_LISTS;
+  private albumsUrl = 'https://music-60f33.firebaseio.com/albums';
+  private albumListsUrl = 'https://music-60f33.firebaseio.com/albumLists';
 
-  // Observer et Observable
-  sendCurrentNumberPage = new Subject<number>();
+  sendCurrentNumberPage = new Subject<number>(); // pour mettre à jour la pagination 
   subjectAlbum = new Subject<Album>();
 
-  constructor() { }
+  constructor(private http: HttpClient) { }
 
-  getAlbums(): Album[] {
+  getAlbums(): Observable<Album[]> {
 
-    return this._albums.sort(
-      (a, b) => { return b.duration - a.duration }
+    // Vous devez faire le mapping avant la récupération des données
+    return this.http.get<Album[]>(this.albumsUrl + '/.json', httpOptions).pipe(
+      // Préparation des données pour avoir un format exploitable dans l'application
+      map(albums => _.values(albums)),
+      // Ordonner les albums par ordre de durée décroissante
+      map(albums => {
+        return albums.sort(
+          (a, b) => { return b.duration - a.duration }
+        );
+      })
+    )
+  }
+
+  getAlbum(id: string): Observable<Album> {
+
+    return this.http.get<Album>(this.albumsUrl + `/${id}/.json`).pipe(
+      map(album => album)
     );
   }
 
-  getAlbum(id: string): Album {
+  getAlbumList(id: string): Observable<List> {
 
-    return this._albums.find(album => album.id === id);
+    return this.http.get<List>(this.albumListsUrl + `/${id}/.json`);
   }
 
-  // recherche d'une référence dans la liste
-  getAlbumList(id: string): List {
+  // retourne le nombre d'albums en base de données
+  count(): Observable<number> {
 
-    return this._albumList.find(list => list.id === id);
+    return this.http.get<Album[]>(this.albumsUrl + '/.json').pipe(
+      map(album => _.values(album)),
+      map(albums => albums.length),
+    );
   }
 
-  count(): number {
+  paginate(start: number, end: number): Observable<Album[]> {
 
-    return this._albums.length;
+    // Vous devez faire le mapping avant la récupération des données
+    return this.http.get<Album[]>(this.albumsUrl + '/.json', httpOptions).pipe(
+      // Préparation des données pour avoir un format exploitable dans l'application
+      // JSON en Array JSON
+      map(albums => {
+        let Albums: Album[] = [];
+        _.forEach(albums, (v, k) => {
+          v.id = k;
+          Albums.push(v);
+        });
+
+        return Albums;
+      }),
+      // Ordonner les albums par ordre de durée décroissante
+      map(albums => {
+        return albums.sort(
+          (a, b) => { return b.duration - a.duration }
+        ).slice(start, end); // slicing des données
+      })
+    )
   }
 
-  paginate(start: number, end: number): Album[] {
+  search(word: string): Observable<Album[]> {
 
-    return this._albums.sort(
-      (a, b) => { return b.duration - a.duration }
-    ).slice(start, end);
+    return this.http.get<Album[]>(this.albumsUrl + `/.json`).pipe(
+      map(albums => {
+        let search: Album[] = [];
+        let re = new RegExp('^' + word.trim())
+        _.forEach(albums, (v, k) => {
+          v.id = k;
+          if (v.title.match(re) != null) search.push(v);
+        })
+
+        return search;
+      })
+    );
   }
 
-  search(word: string): Album[] {
-    if (word.length > 2) {
-      let response = [];
-      this._albums.forEach(album => {
-        if (album.title.includes(word)) response.push(album);
-      });
-
-      return response;
-    }
+  currentPage(page: number) {
+    return this.sendCurrentNumberPage.next(page);
   }
 
-  currentPage(numberPage: number) {
-    // Observer notifie une information page ici numérique
-    return this.sendCurrentNumberPage.next(numberPage);
+  switchOn(album: Album): void {
+    album.status = 'on';
+    // le code ici s'exécute car souscription 
+    this.http.put<void>(this.albumsUrl + `/${album.id}/.json`, album).subscribe(
+      e => e,
+      error => console.warn(error),
+      () => {
+        this.subjectAlbum.next(album);
+      }
+    );
   }
 
-  switchOn(album: Album) {
-    let a = this._albums.find(list => list.id === album.id);
-    if (a) {
-      a.status = 'on';
-      // notifier à l'observable que l'album change statut
-      // console.log(album.status, album.id);
-      this.subjectAlbum.next(album); 
-    }
-
+  switchOff(album: Album): void {
+    album.status = 'off';
+    this.http.put<void>(this.albumsUrl + `/${album.id}/.json`, album).subscribe(() => {
+    });
   }
 
-  switchOff(id : string) {
-    let a = this._albums.find(list => list.id === id);
-    if (a) {
-      a.status = 'off';
-    }
+  addAlbum(album: Album): Observable<any> {
+    return this.http.post<void>(this.albumsUrl + '/.json', album);
   }
+
+  updateAlbum(ref: string, album: Album): Observable<void> {
+    console.log(ref);
+    return this.http.put<void>(this.albumsUrl + `/${ref}/.json`, album);
+  }
+
+  deleteAlbum(id: string): Observable<void> {
+    return this.http.delete<void>(this.albumsUrl + `/${id}/.json`);
+  }
+
+  uploadFile(file: File) {
+
+    const randomId = Math.random().toString(36).substring(2);
+    const ref = firebase.app().storage("gs://music-60f33.appspot.com").ref();
+    const imagesRef = ref.child('images');
+
+    return imagesRef.child(randomId + '.png').put(file);
+    
+  }
+
 }

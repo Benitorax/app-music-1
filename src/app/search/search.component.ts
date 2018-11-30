@@ -14,12 +14,14 @@ export class SearchComponent implements OnInit {
 
   constructor(private ablumService: AlbumService) { }
 
-  ngOnInit() {}
+  ngOnInit() { }
 
   onSubmit(form: NgForm): void {
-    const searchAlbums = this.ablumService.search(form.value['word']);
-    if (searchAlbums)
-      this.searchAlbums.emit(searchAlbums);
+    let results = this.ablumService.search(form.value['word']).subscribe(
+      albums => {
+        if (albums.length > 0) this.searchAlbums.emit(albums);
+      }
+    )
   }
 
 }
