@@ -13,10 +13,10 @@ import { SearchComponent } from './search/search.component';
 import { AlbumDescriptionComponent } from './album-description/album-description.component';
 import { LoginComponent } from './login/login.component';
 import {AppRoutingModule} from './app-routing.module';
-import { PaginateComponent } from './paginate/paginate.component';
 import { AudioPlayerComponent } from './audio-player/audio-player.component';
 import { DashboardComponent } from './dashboard/dashboard.component';
-import { AlbumComponent } from './admin/album/album.component';
+import { ShareModule } from './share/share.module';
+import { AdminModule } from './admin/admin.module';
 
 
 const firebaseConfig = {
@@ -38,17 +38,17 @@ firebase.initializeApp(firebaseConfig);
     SearchComponent,
     AlbumDescriptionComponent,
     LoginComponent,
-    PaginateComponent,
     AudioPlayerComponent,
     DashboardComponent,
-    AlbumComponent
   ],
   imports: [
     BrowserModule,
     FormsModule,
     AppRoutingModule,
     BrowserAnimationsModule,
-    HttpClientModule
+    HttpClientModule,
+    AdminModule,
+    ShareModule,
   ],
   providers: [],
   bootstrap: [AppComponent]
