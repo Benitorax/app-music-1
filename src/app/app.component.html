@@ -8,19 +8,29 @@
         <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
             <ul class="navbar-nav mr-auto">
                 <li class="nav-item active">
-                    <a class="nav-link" routerLink="/albums" routerLinkActive="active">Home
+                    <a class="nav-link" routerLink="/albums">Home
                     </a>
                 </li>
-                <li class="nav-item active">
+                <li *ngIf="auth.authenticated()==false; else elseAuth" class="nav-item active">
                     <a class="nav-link" routerLink="/login" routerLinkActive="active">
                         Se connecter
                     </a>
                 </li>
+                <ng-template #elseAuth>
+                <li class="nav-item active">
+                    <a class="nav-link" routerLink="/admin" routerLinkActive="active">
+                        Dashboard
+                    </a>
+                </li>
+                <li class="nav-item active">
+                    <a class="nav-link disconnect" (click)="auth.logout()">
+                        logout
+                    </a>
+                </li>
+                </ng-template>
             </ul>
             <ul>
-                <li>
-                    {{ time }}
-                </li>
+                <li>time : {{ time }} </li>
             </ul>
         </div>
     </nav>
@@ -29,7 +39,5 @@
     <!-- 
 à la place du sélecteur des albums on mettra maintenant le chargement des components
 -->
-    <div>
-        <router-outlet ></router-outlet>
-    </div>
+    <router-outlet></router-outlet>
 </div>

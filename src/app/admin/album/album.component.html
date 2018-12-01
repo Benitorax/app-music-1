@@ -20,8 +20,8 @@
     <!-- une autre manière de récupérer les albums est le pipe async -->
     <tr *ngFor="let album of albums | async">
       <th scope="row">{{ album.id }}</th>
-      <td>
-        <button type="button" class="btn btn-secondary">udpate</button>
+       <td>
+        <button routerLink="/admin/update/{{album.id}}" type="button" class="btn btn-secondary">udpate</button>
       </td>
       <td> {{ album.name }}</td>
       <td>{{ album.title }}</td>
