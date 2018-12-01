@@ -26,7 +26,7 @@ const routes: Routes = [
     component: AlbumDescriptionComponent
   },
   {
-    path: 'dashboard',
+    path: 'admin', /*canActivate: [GuardService],*/
     component: AlbumComponent
   },
 ];
