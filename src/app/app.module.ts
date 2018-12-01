@@ -16,6 +16,7 @@ import {AppRoutingModule} from './app-routing.module';
 import { PaginateComponent } from './paginate/paginate.component';
 import { AudioPlayerComponent } from './audio-player/audio-player.component';
 import { DashboardComponent } from './dashboard/dashboard.component';
+import { AlbumComponent } from './admin/album/album.component';
 
 
 const firebaseConfig = {
@@ -40,6 +41,7 @@ firebase.initializeApp(firebaseConfig);
     PaginateComponent,
     AudioPlayerComponent,
     DashboardComponent,
+    AlbumComponent
   ],
   imports: [
     BrowserModule,
