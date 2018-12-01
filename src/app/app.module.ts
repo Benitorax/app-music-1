@@ -15,6 +15,7 @@ import { LoginComponent } from './login/login.component';
 import {AppRoutingModule} from './app-routing.module';
 import { PaginateComponent } from './paginate/paginate.component';
 import { AudioPlayerComponent } from './audio-player/audio-player.component';
+import { DashboardComponent } from './dashboard/dashboard.component';
 
 
 const firebaseConfig = {
@@ -38,6 +39,7 @@ firebase.initializeApp(firebaseConfig);
     LoginComponent,
     PaginateComponent,
     AudioPlayerComponent,
+    DashboardComponent,
   ],
   imports: [
     BrowserModule,
