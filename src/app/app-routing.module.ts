@@ -4,6 +4,7 @@ import { AlbumsComponent } from './albums/albums.component';
 import { LoginComponent } from './login/login.component';
 import { AlbumDescriptionComponent } from './album-description/album-description.component';
 import { DashboardComponent } from './dashboard/dashboard.component';
+import { GuardService } from './guard.service';
 
 const routes: Routes = [
   {
@@ -24,7 +25,7 @@ const routes: Routes = [
     component: AlbumDescriptionComponent
   },
   {
-    path: 'dashboard',
+    path: 'dashboard', canActivate: [GuardService],
     component: DashboardComponent
   },
 ];
