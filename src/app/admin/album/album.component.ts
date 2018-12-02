@@ -34,10 +34,10 @@ export class AlbumComponent implements OnInit {
     this.albums = this.aS.paginate($event.start, $event.end);
   }
 
-  destroy(id: number) {
+  destroy(album) {
     // routerLink="/admin/delete/{{album.id}}/deleted"
     this.showModal = true;
-    this.albumId = id;
+    this.albumId = album.id;
   }
 
   choice($event) {

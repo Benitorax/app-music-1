@@ -71,8 +71,10 @@ export class AlbumService {
       map(albums => {
         let Albums: Album[] = [];
         _.forEach(albums, (v, k) => {
-          v.id = k;
-          Albums.push(v);
+          if(v){
+            v.id = k;
+            Albums.push(v);
+          }
         });
 
         return Albums;
@@ -93,8 +95,10 @@ export class AlbumService {
         let search: Album[] = [];
         let re = new RegExp('^' + word.trim())
         _.forEach(albums, (v, k) => {
-          v.id = k;
-          if (v.title.match(re) != null) search.push(v);
+          if(v){
+            v.id = k;
+            if (v.title.match(re) != null) search.push(v);
+          }
         })
 
         return search;
@@ -129,7 +133,6 @@ export class AlbumService {
   }
 
   updateAlbum(ref: string, album: Album): Observable<void> {
-    console.log(ref);
     return this.http.put<void>(this.albumsUrl + `/${ref}/.json`, album);
   }
 
