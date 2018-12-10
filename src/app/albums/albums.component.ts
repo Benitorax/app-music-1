@@ -42,6 +42,7 @@ export class AlbumsComponent implements OnInit {
   selectedAlbum: Album;
   status: string = null; // pour gérer l'affichage des caractères [play] 
   count = 5;
+  perPage = 2;
 
   constructor(private ablumService: AlbumService) {
     // récupération des données depuis Firebase
@@ -53,12 +54,12 @@ export class AlbumsComponent implements OnInit {
   ngOnInit() {
 
     // déterminer l'ordre dans lequel les Observables s'exécuteront
-    const Albums = this.ablumService.paginate(0, 5);
+    const Albums = this.ablumService.paginate(0, this.perPage);
     const Count = this.ablumService.count();
 
     const triggerAlbumsCount = merge(
       Count.pipe(
-        map(c => this.count = c/5)
+        map(c => this.count = c/2)
       ),
       Albums.pipe(
         map(albums => this.albums = albums)

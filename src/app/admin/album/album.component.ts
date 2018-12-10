@@ -10,7 +10,7 @@ import { Router } from '@angular/router';
 export class AlbumComponent implements OnInit {
 
   albums;
-  perPage: number = 5;
+  perPage: number = 2;
   message: string;
   count;
   showModal: boolean = false;
@@ -25,7 +25,7 @@ export class AlbumComponent implements OnInit {
   ngOnInit() {
     // on récupère les albums directement comme ci-dessous, dans le template on utilisera le pipe async
     // pour récupérer les albums :
-    this.albums = this.aS.paginate(0, 5);
+    this.albums = this.aS.paginate(0, this.perPage);
     this.count = this.aS.count();
 
   }
