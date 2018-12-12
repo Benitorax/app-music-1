@@ -14,17 +14,19 @@ export class GuardService implements CanActivate {
     route: ActivatedRouteSnapshot,
     state: RouterStateSnapshot): any | boolean {
 
-    if (this.aS.authenticated()) {
-      console.log('login...');
-      return true;
-    };
+    if (this.aS.authenticated()) return true;
 
-    if (this.aS.authenticated() == false) {
-      console.log('no login...');
-      this.router.navigate(['/login'], {
-        queryParams: { messageError: 'Error authentification' }
-      });
-    }
+    return this.aS.currentUserObservable().onAuthStateChanged(
+      user => {
+        if (user === null) {
+          this.router.navigate(['/login'], {
+            queryParams: { messageError: 'Error authentification' }
+          });
+        } else {
+          this.router.navigate(['/admin']);
+        }
+      }
+    );
 
   }
 

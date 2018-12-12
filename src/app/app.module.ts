@@ -17,18 +17,9 @@ import { AudioPlayerComponent } from './audio-player/audio-player.component';
 import { DashboardComponent } from './dashboard/dashboard.component';
 import { ShareModule } from './share/share.module';
 import { AdminModule } from './admin/admin.module';
+import { environment } from '../environments/environment';
 
-
-const firebaseConfig = {
-  apiKey: "AIzaSyCCESVZgzUTrDrXzo_tfoePnUMFAK735HA",
-  authDomain: "music-60f33.firebaseapp.com",
-  databaseURL: "https://music-60f33.firebaseio.com",
-  projectId: "music-60f33",
-  storageBucket: "music-60f33.appspot.com",
-  messagingSenderId: "494105274791"
-};
-
-firebase.initializeApp(firebaseConfig);
+firebase.initializeApp(environment.firebaseconfig);
 
 @NgModule({
   declarations: [

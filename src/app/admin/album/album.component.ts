@@ -42,10 +42,7 @@ export class AlbumComponent implements OnInit {
 
   choice($event) {
     this.showModal = $event.showModal;
-
-
   }
-
 
   yes() {
     this.showModal = false;

@@ -20,8 +20,7 @@ export class LoginComponent implements OnInit {
       this.router.navigate(['/dashboard'], { queryParams: { message: 'Success' } });
   }
 
-  ngOnInit() {
-  }
+  ngOnInit() {}
 
   onSubmit(form: NgForm): void {
 

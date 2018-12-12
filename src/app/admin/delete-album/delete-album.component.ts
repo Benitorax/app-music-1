@@ -18,7 +18,6 @@ export class DeleteAlbumComponent implements OnInit {
       this.route.snapshot.paramMap.get('action')
     ) {
       const id = this.route.snapshot.paramMap.get('id');
-      const action = this.route.snapshot.paramMap.get('action');
 
       this.aS.deleteAlbum(id).subscribe(
         () => {
