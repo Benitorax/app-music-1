@@ -39,4 +39,4 @@ testem.log
 Thumbs.db
 
 # ne pas exposé les données sensibles
-/environments
+/src/environments
