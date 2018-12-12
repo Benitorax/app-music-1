@@ -10,9 +10,9 @@ import { DeleteAlbumComponent } from './delete-album/delete-album.component';
 import { ModalDialogComponent } from './modal-dialog/modal-dialog.component';
 
 const routes: Routes = [
-  { path: 'admin/add', /*canActivate: [GuardService],*/ component: AddAlbumComponent },
-  { path: 'admin/update/:id', /*canActivate: [GuardService],*/ component: UpdateAlbumComponent },
-  { path: 'admin/delete/:id/:action',/*canActivate: [GuardService],*/ component: DeleteAlbumComponent },
+  { path: 'admin/add', canActivate: [GuardService], component: AddAlbumComponent },
+  { path: 'admin/update/:id', canActivate: [GuardService], component: UpdateAlbumComponent },
+  { path: 'admin/delete/:id/:action', canActivate: [GuardService], component: DeleteAlbumComponent },
 ]
 
 @NgModule({
@@ -21,7 +21,13 @@ const routes: Routes = [
     ShareModule,
     RouterModule.forChild(routes)
   ],
-  declarations: [AlbumComponent, AddAlbumComponent, UpdateAlbumComponent, DeleteAlbumComponent, ModalDialogComponent],
+  declarations: [
+    AlbumComponent, 
+    AddAlbumComponent, 
+    UpdateAlbumComponent, 
+    DeleteAlbumComponent, 
+    ModalDialogComponent
+  ],
   exports : [AlbumComponent]
 })
 export class AdminModule { }

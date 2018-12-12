@@ -8,24 +8,24 @@ import { AuthService } from './auth.service';
 export class GuardService implements CanActivate {
 
   // on injecte par dépendance le service AuthService
-  constructor(private aS: AuthService, private router: Router) {}
+  constructor(private aS: AuthService, private router: Router) { }
 
   canActivate(
     route: ActivatedRouteSnapshot,
     state: RouterStateSnapshot): any | boolean {
 
-    if (this.aS.authenticated()) return true;
+    if (this.aS.authenticated()) {
+      console.log('login...');
+      return true;
+    };
 
-    return this.aS.currentUserObservable().onAuthStateChanged(
-      user => {
-        if (user === null) {
-          console.log('auth login redirect')
-          this.router.navigate(['/login'], {
-            queryParams: { messageError: 'Error authentification' }
-          });
-        }
-      }
-    )
+    if (this.aS.authenticated() == false) {
+      console.log('no login...');
+      this.router.navigate(['/login'], {
+        queryParams: { messageError: 'Error authentification' }
+      });
+    }
+
   }
 
 }

@@ -10,7 +10,6 @@ import { Router } from '@angular/router';
   styleUrls: ['./add-album.component.scss']
 })
 export class AddAlbumComponent implements OnInit {
-  [x: string]: any;
 
   // définition de l'objet
   albumForm: FormGroup;
