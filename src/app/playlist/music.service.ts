@@ -1,5 +1,4 @@
 import { Injectable } from '@angular/core';
-
 import { Observable, of } from 'rxjs';
 
 export enum Color {
@@ -35,7 +34,6 @@ export class MusicService {
   }
 
   setColor(music: Music) {
-
     music.color == 'violet' ?  music.color = Color.Orange :  music.color = Color.Violet;
   }
 }

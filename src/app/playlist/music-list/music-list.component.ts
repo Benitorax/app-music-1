@@ -17,12 +17,11 @@ export class MusicListComponent implements OnInit {
   constructor(private mS: MusicService) { }
 
   ngOnInit() {
-    this.musics = this.mS.musics;
+    this.musics = this.mS.musics; // Observable
     this.count = this.mS.count;
   }
 
   tag(music: Music) {
-
     this.mS.setColor(music);
   }
 

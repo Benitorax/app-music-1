@@ -3,7 +3,6 @@ import { CommonModule } from '@angular/common';
 
 import { PlaylistRoutingModule } from './playlist-routing.module';
 import { MusicListComponent } from './music-list/music-list.component';
-import { MusicService } from './music.service';
 import { MusicTagDirective } from './music-tag.directive';
 
 @NgModule({
@@ -12,7 +11,6 @@ import { MusicTagDirective } from './music-tag.directive';
     CommonModule,
     PlaylistRoutingModule
   ],
-  providers : []
 })
 
 export class PlaylistModule { }
